@@ -96,8 +96,8 @@
             </div>
         </div>
     </div>
-    <div v-else class="bg-sky-400 bg-opacity-40 p-[5px] shadow-sm w-full max-w-5xl h-80 rounded-[7px] flex flex-col justify-center items-center p-4">
-        <p class="text-3xl font-light text-white">Loading Weather...</p>
+    <div v-else class="p-[5px] shadow-sm w-full max-w-5xl h-80 rounded-[7px] flex flex-col justify-center items-center p-4">
+        <p class="text-3xl font-light text-sky-700 animate-pulse">Loading Weather...</p>
     </div>
 </template>
 
