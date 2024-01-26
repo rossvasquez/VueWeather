@@ -97,10 +97,10 @@
     const weather = ref<any>(null)
 
     const fetchWeatherData = async (lat: number, lon: number) => {
-        const response = await fetch(`.netlify/functions/getWeather`, {
+        const response = await fetch(".netlify/functions/getWeather", {
             method: "POST",
             headers: {
-                "content/type": "application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 "lon": lon,
