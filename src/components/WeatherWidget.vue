@@ -97,7 +97,16 @@
     const weather = ref<any>(null)
 
     const fetchWeatherData = async (lat: number, lon: number) => {
-        const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=565a3c7e8bb1489fbcf201830242501 &q=${lat},${lon}&aqi=no`)
+        const response = await fetch(`.netlify/functions/getWeather`, {
+            method: "POST",
+            headers: {
+                "content/type": "application/json"
+            },
+            body: JSON.stringify({
+                "lon": lon,
+                "lat": lat
+            })
+        })
         return await response.json()
     }
 
