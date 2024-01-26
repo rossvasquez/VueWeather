@@ -52,41 +52,51 @@
 </script>
 
 <template>
-    <div class="w-full max-w-3xl h-auto flex flex-col gap-3" v-if="weather">
-        <div class="relative bg-sky-300 bg-opacity-40 p-4 shadow-sm w-full max-w-5xl h-auto rounded-[7px] flex items-start">
-            <div class="w-full flex flex-col gap-1 justify-start h-full">
-                <p class="text-4xl text-sky-700">{{ weather.location.name }}, {{ weather.location.region }}</p>
-                <p class="text-2xl text-white font-light">{{ weather.location.country }}</p>
-            </div>
-            <div class="w-full flex flex-col items-end justify-start h-full">
-                <p class="text-2xl font-light text-neutral-700">{{ formatDate(weather.location.localtime, false) }}</p>
-                <p class="text-lg text-white font-light text-neutral-500">Updated {{ formatDate(weather.current.last_updated, true) }}</p>
+    <div class="w-full max-w-3xl h-auto flex flex-col gap-3 select-none" v-if="weather">
+        <div class="relative bg-sky-400 bg-opacity-40 shadow-sm w-full max-w-5xl h-auto rounded-[7px] overflow-hidden">
+            <div class="w-full h-2 bg-sky-700" />
+            <div class="flex flex-col sm:flex-row items-start">
+                <div class="w-full flex flex-col gap-1 justify-start h-full p-4">
+                    <p class="text-4xl font-semibold drop-shadow-sm text-sky-700">{{ weather.location.name }}, {{ weather.location.region }}</p>
+                    <p class="text-2xl text-neutral-700 font-light">{{ weather.location.country }}</p>
+                </div>
+                <div class="w-full flex flex-col sm:items-end justify-start h-full px-4 pb-2 sm:p-4">
+                    <p class="text-lg font-light text-neutral-500">Updated {{ formatDate(weather.current.last_updated, true) }}</p>
+                </div>
             </div>
         </div>
-        <div class="w-full h-auto flex gap-3">
-            <div class="w-1/3 bg-sky-300 flex flex-col bg-opacity-40 p-4 shadow-sm rounded-[7px]">
-                <p class="font-light text-neutral-500 text-xl">Temp</p>
-                <div class="flex flex-row-reverse justify-end items-center gap-2">
-                    <img :src="weather.current.condition.icon" />
-                    <p class="text-5xl text-neutral-700">{{ Math.round(weather.current.temp_f) }}&deg;F</p>
+        <div class="w-full h-auto flex flex-wrap gap-3">
+            <div class="grow bg-sky-400 flex flex-col bg-opacity-40 shadow-sm rounded-[7px] overflow-hidden">
+                <p class="font-light text-white py-2 px-4 text-xl bg-sky-700">Current</p>
+                <div class="p-4">
+                    <div class="flex flex-row-reverse justify-end items-center gap-6">
+                        <div class="px-1 py-2 w-16 h-16 bg-white shadow-md flex justify-center items-center rounded-full">
+                            <img class="-mt-2" :src="weather.current.condition.icon" />
+                        </div>
+                        <p class="text-5xl text-neutral-700">{{ Math.round(weather.current.temp_f) }}&deg;F</p>
+                    </div>
+                    <p class="pl-1 mt-2 text-2xl font-light text-neutral-700">{{ weather.current.condition.text }}</p>
+                    <p class="pl-1 text-xl font-light text-neutral-500 mt-1">Feels Like: {{ Math.round(weather.current.feelslike_f) }}&deg;F</p>
                 </div>
-                <p class="pl-1 mt-2 text-2xl font-light text-neutral-700">{{ weather.current.condition.text }}</p>
-                <p class="pl-1 text-xl font-light text-neutral-500 mt-1">Feels Like: {{ Math.round(weather.current.feelslike_f) }}&deg;F</p>
             </div>
-            <div class="w-1/3 bg-sky-300 flex flex-col bg-opacity-40 p-4 shadow-sm rounded-[7px]">
-                <p class="font-light text-neutral-500 text-xl">Precip</p>
-                <img class="w-20 mt-2" src="/precip.svg?url" />
-                <p class="pl-1 text-2xl font-light text-neutral-700 mt-2">{{ weather.current.precip_in }} inches</p>
+            <div class="grow bg-sky-400 flex flex-col bg-opacity-40 shadow-sm rounded-[7px] overflow-hidden">
+                <p class="font-light text-white py-2 px-4 text-xl bg-sky-700">Precip</p>
+                <div class="py-2 px-6 md:px-4 flex md:block flex-col justify-center items-center">
+                    <img class="w-20 mt-2" src="/precip.svg?url" />
+                    <p class="md:pl-1 text-2xl font-light text-neutral-700 mt-2">{{ weather.current.precip_in }} inches</p>
+                </div>
             </div>
-            <div class="w-1/3 bg-sky-300 flex flex-col bg-opacity-40 p-4 shadow-sm rounded-[7px]">
-                <p class="font-light text-neutral-500 text-xl">Wind</p>
-                <img :style="windRot" class="w-20 mt-2 rotate-[]" src="/arrow.svg?url" />
-                <div class="flex pl-1 mt-2 text-2xl font-light text-neutral-700"><p class="mr-2">{{ wind(weather.current.wind_dir) }}</p><p>{{ Math.round(weather.current.wind_mph) }}</p><p class="text-[1rem] mt-1">MPH</p></div>
-                <p class="pl-1 text-xl font-light text-neutral-500">{{ Math.ceil(weather.current.gust_mph) }}<span class="text-[1rem]">MPH</span> Gusts</p>
+            <div class="grow bg-sky-400 flex flex-col bg-opacity-40 shadow-sm rounded-[7px] overflow-hidden">
+                <p class="font-light text-white py-2 px-4 text-xl bg-sky-700">Wind</p>
+                <div class="py-2 px-6 md:px-4 flex md:block flex-col justify-center items-center">
+                    <img :style="windRot" class="w-20 rotate-[]" src="/arrow.svg?url" />
+                    <div class="flex md:pl-1 mt-2 text-2xl font-light text-neutral-700"><p class="mr-2">{{ wind(weather.current.wind_dir) }}</p><p>{{ Math.round(weather.current.wind_mph) }}</p><p class="text-[1rem] mt-1">MPH</p></div>
+                    <p class="md:pl-1 text-xl font-light text-neutral-500">{{ Math.ceil(weather.current.gust_mph) }}<span class="text-[1rem]">MPH</span> Gusts</p>
+                </div>
             </div>
         </div>
     </div>
-    <div v-else class="bg-sky-300 bg-opacity-40 p-[5px] shadow-sm w-full max-w-5xl h-80 rounded-[7px] flex flex-col justify-center items-center p-4">
+    <div v-else class="bg-sky-400 bg-opacity-40 p-[5px] shadow-sm w-full max-w-5xl h-80 rounded-[7px] flex flex-col justify-center items-center p-4">
         <p class="text-3xl font-light text-white">Loading Weather...</p>
     </div>
 </template>
